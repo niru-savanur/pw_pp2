@@ -92,36 +92,44 @@ def del_conflict_list(veh_i, conflict_list):
 
 
 def add_poi(conflict_list):
-    poi_x_start_q4 = -400
-    poi_y_start_q4 = 400
+    poi_x_start_q4 = -40
+    poi_y_start_q4 = 40
 
-    poi_x_start_q3 = -400
+    poi_x_start_q3 = -40
     poi_y_start_q3 = -20
 
-    poi_x_start_q2 = 400
+    poi_x_start_q2 = 40
     poi_y_start_q2 = -20
 
-    poi_x_start_q1 = 400
-    poi_y_start_q1 = 400
+    poi_x_start_q1 = 40
+    poi_y_start_q1 = 40
 
-    poi_increment = 60
+    poi_increment = 10
     for i in range(len(current_pois)):
         traci.poi.remove(current_pois[i])
     current_pois.clear()
 
     i = 0
+    i_4 = 0
+    i_3 = 0
+    i_2 = 0
+    i_1 = 0
     for k, v in conflict_list.items():
         if i == 10:
             break
         id = traci.vehicle.getRoadID(k)
         if id == "end4_junction":
-            traci.poi.add(k+" : "+v, poi_x_start_q4, poi_y_start_q4-i*poi_increment, BLACK)
+            traci.poi.add(k+" : "+v, poi_x_start_q4, poi_y_start_q4-i_4*poi_increment, BLACK)
+            i_4 += 1
         elif id == "end3_junction":
-            traci.poi.add(k+" : "+v, poi_x_start_q3, poi_y_start_q3-i*poi_increment, BLACK)
+            traci.poi.add(k+" : "+v, poi_x_start_q3, poi_y_start_q3-i_3*poi_increment, BLACK)
+            i_3 += 1
         elif id == "end2_junction":
-            traci.poi.add(k+" : "+v, poi_x_start_q2, poi_y_start_q2-i*poi_increment, BLACK)
+            traci.poi.add(k+" : "+v, poi_x_start_q2, poi_y_start_q2-i_2*poi_increment, BLACK)
+            i_2 += 1
         elif id == "end1_junction":
-            traci.poi.add(k+" : "+v, poi_x_start_q1, poi_y_start_q1-i*poi_increment, BLACK) 
+            traci.poi.add(k+" : "+v, poi_x_start_q1, poi_y_start_q1-i_1*poi_increment, BLACK)
+            i_1 += 1 
         
         current_pois.append(k+" : "+v)
         i += 1
@@ -261,7 +269,7 @@ def compute_leaving_time(veh):
 
 
 def main():
-    sumo_cmd = ['sumo-gui', '--duration-log.statistics', '--summary-output.period', '1', '-c', 'cfg/twoWay6lanes.sumo.cfg']
+    sumo_cmd = ['sumo-gui', '-c', 'cfg/twoWay6lanes.sumo.cfg']
     traci.start(sumo_cmd)
     
     plexe = Plexe()
